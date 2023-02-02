@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xff181818),
+        backgroundColor: const Color(0xff181818),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child:
@@ -21,13 +21,13 @@ class MyApp extends StatelessWidget {
               // 옆으로니까 main이면 가로 정렬
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 200,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
+                    const Text(
                       "Hello",
                       style: TextStyle(
                         color: Colors.white,
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Text(
@@ -55,10 +55,10 @@ class MyApp extends StatelessWidget {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "\$5 194 482",
               style: TextStyle(
                 fontSize: 45,
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Row(
@@ -75,8 +75,8 @@ class MyApp extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.amber,
                       borderRadius: BorderRadius.circular(45)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
                       vertical: 20,
                       horizontal: 50,
                     ),
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ]),
         ),
       ),
