@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Dog>(
-      create: (context) => Dog(name: "dog4", breed: "breed4"),
+      create: (context) => Dog(name: "dog5", breed: "breed5"),
       child: MaterialApp(
-        title: 'Provider 03',
+        title: 'Provider 05',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Provider 04'),
+        title: const Text('Provider 05'),
       ),
       body: Center(
         child: Column(
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Text(
               // provider에서 값을 참조
-              '- name: ${Provider.of<Dog>(context, listen: false).name}',
+              '- name: ${context.read<Dog>().name}',
               style: const TextStyle(fontSize: 20.0),
             ),
             const SizedBox(height: 10.0),
@@ -67,7 +67,7 @@ class BreedAndAge extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '- breed: ${Provider.of<Dog>(context, listen: false).breed}',
+          '- breed: ${context.select<Dog, String>((Dog dog) => dog.breed)}',
           style: const TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 10.0),
@@ -85,13 +85,13 @@ class Age extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '- age: ${Provider.of<Dog>(context).age}',
+          '- age: ${context.watch<Dog>().age}',
           style: const TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 20.0),
         ElevatedButton(
           onPressed: () {
-            Provider.of<Dog>(context, listen: false).grow();
+            context.read<Dog>().grow();
           },
           child: const Text(
             'Grow',
