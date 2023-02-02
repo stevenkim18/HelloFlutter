@@ -8,4 +8,11 @@ class Babies {
 
     return 100;
   }
+
+  Stream<String> bark() async* {
+    for (int i = 0; i < 10; i++) {
+      await Future.delayed(Duration(seconds: 2));
+      yield "Bark $i";
+    }
+  }
 }

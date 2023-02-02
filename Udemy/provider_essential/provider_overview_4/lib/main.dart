@@ -20,11 +20,18 @@ class MyApp extends StatelessWidget {
         ),
         FutureProvider<int>(
             create: (context) {
-              final int dogAge = context.read<Dog>().age;
+              final int dogAge = context.read<Dog>().age; // watch 쓰면 에러 남.
               final babies = Babies(age: dogAge);
               return babies.getBabies();
             },
-            initialData: 0)
+            initialData: 0),
+        StreamProvider<String>(
+            create: ((context) {
+              final int dogAge = context.read<Dog>().age;
+              final babies = Babies(age: dogAge);
+              return babies.bark();
+            }),
+            initialData: "start!!!!"),
       ],
       child: MaterialApp(
         title: 'Provider 06',
@@ -103,6 +110,12 @@ class Age extends StatelessWidget {
         const SizedBox(height: 20.0),
         Text(
           "- number of babies: ${context.watch<int>()}",
+          style: const TextStyle(fontSize: 20.0),
+        ),
+        const SizedBox(height: 10.0),
+        Text(
+          // StreamProvider를 찾음.
+          "- ${context.watch<String>()}", // read를 하면 바뀌지 않음.
           style: const TextStyle(fontSize: 20.0),
         ),
         const SizedBox(height: 10.0),
