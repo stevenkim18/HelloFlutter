@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Dog>(
-          create: (context) => Dog(name: "dog6", breed: "breed6"),
+          create: (context) => Dog(name: "dog8", breed: "breed8"),
         ),
         FutureProvider<int>(
             create: (context) {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             initialData: "start!!!!"),
       ],
       child: MaterialApp(
-        title: 'Provider 06',
+        title: 'Provider 08',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -57,22 +57,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Provider 06'),
+        title: const Text('Provider 08'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              // provider에서 값을 참조
-              '- name: ${context.read<Dog>().name}',
-              style: const TextStyle(fontSize: 20.0),
+      body: Consumer<Dog>(
+        builder: (BuildContext context, Dog dog, Widget? child) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                child!,
+                const SizedBox(height: 20.0),
+                Text(
+                  // provider에서 값을 참조
+                  '- name: ${dog.name}',
+                  style: const TextStyle(fontSize: 20.0),
+                ),
+                const SizedBox(height: 10.0),
+                const BreedAndAge(),
+              ],
             ),
-            const SizedBox(height: 10.0),
-            const BreedAndAge(),
-          ],
-        ),
+          );
+        },
+        child: const Text("Provider 와 무관한 위젯!"),
       ),
     );
   }
@@ -83,15 +90,19 @@ class BreedAndAge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          '- breed: ${context.select<Dog, String>((Dog dog) => dog.breed)}',
-          style: const TextStyle(fontSize: 20.0),
-        ),
-        const SizedBox(height: 10.0),
-        const Age(),
-      ],
+    return Consumer<Dog>(
+      builder: (_, Dog dog, __) {
+        return Column(
+          children: [
+            Text(
+              '- breed: ${dog.breed}',
+              style: const TextStyle(fontSize: 20.0),
+            ),
+            const SizedBox(height: 10.0),
+            const Age(),
+          ],
+        );
+      },
     );
   }
 }
@@ -101,34 +112,25 @@ class Age extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          '- age: ${context.watch<Dog>().age}',
-          style: const TextStyle(fontSize: 20.0),
-        ),
-        const SizedBox(height: 20.0),
-        Text(
-          "- number of babies: ${context.watch<int>()}",
-          style: const TextStyle(fontSize: 20.0),
-        ),
-        const SizedBox(height: 10.0),
-        Text(
-          // StreamProvider를 찾음.
-          "- ${context.watch<String>()}", // read를 하면 바뀌지 않음.
-          style: const TextStyle(fontSize: 20.0),
-        ),
-        const SizedBox(height: 10.0),
-        ElevatedButton(
-          onPressed: () {
-            context.read<Dog>().grow();
-          },
-          child: const Text(
-            'Grow',
-            style: TextStyle(fontSize: 20.0),
+    return Consumer<Dog>(builder: (_, Dog dog, __) {
+      return Column(
+        children: [
+          Text(
+            '- age: ${dog.age}',
+            style: const TextStyle(fontSize: 20.0),
           ),
-        ),
-      ],
-    );
+          const SizedBox(height: 10.0),
+          ElevatedButton(
+            onPressed: () {
+              dog.grow();
+            },
+            child: const Text(
+              'Grow',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }
